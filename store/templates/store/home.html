@@ -1,0 +1,435 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Amaron Store Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Welcome to Amaron Store</h1>
+                <p class="welcome-subtitle">Your trusted partner for automotive batteries and services</p>
+                <div class="welcome-stats">
+                    <div class="welcome-stat">
+                        <span class="stat-icon">🔋</span>
+                        <span class="stat-number">{{ batteries|length }}</span>
+                        <span class="stat-label">Batteries in Stock</span>
+                    </div>
+                    <div class="welcome-stat">
+                        <span class="stat-icon">👥</span>
+                        <span class="stat-number">{{ customers|length }}</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+                    <div class="welcome-stat">
+                        <span class="stat-icon">💰</span>
+                        <span class="stat-number">₹{{ total_income }}</span>
+                        <span class="stat-label">Total Revenue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-section quick-actions">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="action-grid">
+                <a href="{% url 'add_battery' %}" class="action-card battery">
+                    <div class="action-icon">🔋</div>
+                    <h3>Add Battery</h3>
+                    <p>Add new battery to stock</p>
+                </a>
+                <a href="{% url 'add_customer' %}" class="action-card customer">
+                    <div class="action-icon">👤</div>
+                    <h3>Add Customer</h3>
+                    <p>Register new customer</p>
+                </a>
+                <a href="{% url 'add_service_report' %}" class="action-card service">
+                    <div class="action-icon">🔧</div>
+                    <h3>Add Service</h3>
+                    <p>Create service report</p>
+                </a>
+                <a href="{% url 'add_daily_income' %}" class="action-card income">
+                    <div class="action-icon">💰</div>
+                    <h3>Add Income</h3>
+                    <p>Record daily income</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dashboard-section recent-activity">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-grid">
+                <!-- Battery Stock -->
+                <div class="activity-card battery">
+                    <div class="card-header">
+                        <h3>Battery Stock</h3>
+                        <span class="card-icon">🔋</span>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for battery in batteries|slice:":5" %}
+                                <tr>
+                                    <td>{{ battery.name }}</td>
+                                    <td>₹{{ battery.price }}</td>
+                                    <td>{{ battery.quantity }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{% url 'battery_list' %}" class="view-all">View All Batteries →</a>
+                </div>
+
+                <!-- Recent Customers -->
+                <div class="activity-card customer">
+                    <div class="card-header">
+                        <h3>Recent Customers</h3>
+                        <span class="card-icon">👥</span>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for customer in customers|slice:":5" %}
+                                <tr>
+                                    <td>{{ customer.name }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.phone }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{% url 'customer_list' %}" class="view-all">View All Customers →</a>
+                </div>
+
+                <!-- Recent Service Reports -->
+                <div class="activity-card service">
+                    <div class="card-header">
+                        <h3>Recent Services</h3>
+                        <span class="card-icon">🔧</span>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Details</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for report in reports|slice:":5" %}
+                                <tr>
+                                    <td>{{ report.customer.name }}</td>
+                                    <td>{{ report.details }}</td>
+                                    <td>{{ report.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{% url 'service_report_list' %}" class="view-all">View All Services →</a>
+                </div>
+
+                <!-- Recent Daily Income -->
+                <div class="activity-card income">
+                    <div class="card-header">
+                        <h3>Recent Income</h3>
+                        <span class="card-icon">💰</span>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for income in daily_income|slice:":5" %}
+                                <tr>
+                                    <td>{{ income.date }}</td>
+                                    <td>₹{{ income.amount }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="{% url 'daily_income_list' %}" class="view-all">View All Income →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .welcome-stat {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .welcome-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Quick Actions */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .action-card.battery::before { background-color: #3498db; }
+        .action-card.customer::before { background-color: #2ecc71; }
+        .action-card.service::before { background-color: #e74c3c; }
+        .action-card.income::before { background-color: #f1c40f; }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-card h3 {
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+
+        .action-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Recent Activity */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .activity-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .activity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .activity-card h3 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .view-all {
+            display: block;
+            text-align: right;
+            margin-top: 1rem;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: #2980b9;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
+            .welcome-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .action-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Update Battery Stock{% endblock %}
+
+{% block content %}
+    <h1 class="page-title">Edit Battery Details</h1>
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Battery Name:</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.price.id_for_label }}">Price:</label>
+            {{ form.price }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+            {{ form.quantity }}
+        </div>
+        <div class="action-container">
+            <button type="submit" class="btn btn-primary">Update Battery</button>
+            <a href="{% url 'battery_list' %}" class="btn btn-secondary">Back to Battery List</a>
+        </div>
+    </form>
+{% endblock %}

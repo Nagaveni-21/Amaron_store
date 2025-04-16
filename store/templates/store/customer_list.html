@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Customers{% endblock %}
+
+{% block content %}
+    <div class="dashboard-section">
+        <div class="card-header">
+            <h2 class="section-title">Customers</h2>
+            <a href="{% url 'add_customer' %}" class="btn btn-primary">Add Customer</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.phone }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'update_customer' customer.id %}" class="btn btn-success">Edit</a>
+                                <a href="{% url 'delete_customer' customer.id %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

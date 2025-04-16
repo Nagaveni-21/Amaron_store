@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Service Reports{% endblock %}
+
+{% block content %}
+    <div class="dashboard-section">
+        <div class="card-header">
+            <h2 class="section-title">Service Reports</h2>
+            <a href="{% url 'add_service_report' %}" class="btn btn-primary">Add Service</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Details</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td>{{ report.customer.name }}</td>
+                        <td>{{ report.details }}</td>
+                        <td>{{ report.date }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'update_service_report' report.id %}" class="btn btn-success">Edit</a>
+                                <a href="{% url 'delete_service_report' report.id %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

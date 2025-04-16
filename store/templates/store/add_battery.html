@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Add Battery{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">Add New Battery</h2>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="price">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="quantity">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">Add Battery</button>
+                    <a href="{% url 'battery_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %} 

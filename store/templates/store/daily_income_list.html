@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Daily Income{% endblock %}
+
+{% block content %}
+    <div class="dashboard-section">
+        <div class="card-header">
+            <h2 class="section-title">Daily Income</h2>
+            <a href="{% url 'add_daily_income' %}" class="btn btn-primary">Add Income</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for income in daily_income %}
+                    <tr>
+                        <td>{{ income.date }}</td>
+                        <td>₹{{ income.amount }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'update_daily_income' income.id %}" class="btn btn-success">Edit</a>
+                                <a href="{% url 'delete_daily_income' income.id %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

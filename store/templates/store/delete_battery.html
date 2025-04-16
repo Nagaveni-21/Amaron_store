@@ -1,0 +1,17 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Delete Battery{% endblock %}
+
+{% block content %}
+    <div class="confirmation-message">
+        <h2>Delete Battery</h2>
+        <p>Are you sure you want to delete "{{ battery.name }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="{% url 'battery_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
